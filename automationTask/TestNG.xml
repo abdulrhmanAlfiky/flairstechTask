@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+
+    <test name = "goal and achievement runner">
+        <classes>
+            <class name="task.tests.orange_HRM_add_user.CreateNewGoalRunner"/>
+            <class name="task.tests.success_factors_add_achievements.AddLoginPageRunner"/>
+        </classes>
+    </test>
+</suite>
