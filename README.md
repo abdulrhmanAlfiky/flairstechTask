@@ -4,7 +4,7 @@
 ### in this document i will mention the Project structure for Web and API Projects
 
 ### -WEB UI Project
-this project aims to automate the creation of goal in success factors website and add an achievement and link it with the crated goal mentioned 
+this project aims to automate the functionality of admin tab page in OrangeHRM website
 
 #### Design pattern used:- 
 - i'm using two patterns in my project (**Page object model pattern** & **Singelton design pattern**) 
