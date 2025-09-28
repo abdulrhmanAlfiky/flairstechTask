@@ -2,9 +2,13 @@ package task.tests.orange_HRM_add_user;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.testng.Assert;
 import task.driver.WebDriverHandling;
 import task.pages.AddUserPage;
 import task.pages.AdminTabPage;
@@ -14,16 +18,20 @@ import task.tests.BaseTest;
 
 import java.time.Duration;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
-
 public class AddUserStepdefs extends BaseTest {
 
     LoginPage loginPage = new LoginPage();
     HomePage  homePage = new HomePage();
     AdminTabPage adminTabPage = new AdminTabPage();
     AddUserPage addUserPage = new AddUserPage();
-    WebDriverWait wait = new WebDriverWait(WebDriverHandling.getWebDriver(), Duration.ofSeconds(60));
+//    WebDriverWait wait = new flue(WebDriverHandling.getWebDriver(), Duration.ofSeconds(120));
+    FluentWait<WebDriver> wait = new FluentWait<>(WebDriverHandling.getWebDriver())
+        .withTimeout(Duration.ofSeconds(60))
+        .pollingEvery(Duration.ofSeconds(1))
+        .ignoring(NoSuchElementException.class) ;    // ignore not found
+
     static int records = 0;
+    static int recordsAfterAdd = 0;
 
 //    @Given("vodafone employee need to login to access success factors website")
 //    public void vodafoneEmployeeNeedToLoginToAccessSuccessFactorsWebsite() throws InterruptedException {
@@ -107,18 +115,36 @@ public class AddUserStepdefs extends BaseTest {
 
     @And("admin user fill required data to add new user")
     public void adminUserFillRequiredDataToAddNewUser() throws InterruptedException {
+        addUserPage.getEmployeeNameField().sendKeys("A");
+        wait.until(ExpectedConditions.visibilityOfAllElements(addUserPage.getSelectEmpployeeList()));
+        addUserPage.clickOnSelectEmplyeeName();
         addUserPage.clickOnUserRoleSelector();
         addUserPage.clickOnESSRoleType();
         addUserPage.clickOnStatusSelector();
         addUserPage.clickOnEnabledStatus();
-        addUserPage.clickOnEmployeeNameField1();
-        Thread.sleep(1000);
-        addUserPage.getEmployeeNameField2().sendKeys("A");
-        wait.until(ExpectedConditions.refreshed(visibilityOf(addUserPage.getSelectEmployeeName())));
-        addUserPage.clickOnSelectEmplyeeName();
-        addUserPage.getUserNameField().sendKeys("Abdulrhman");
         addUserPage.getPasswordField().sendKeys("123456@Bedo");
         addUserPage.getConfirmPasswordField().sendKeys("123456@Bedo");
+        addUserPage.clickOnEmployeeNameField();
 
+//        Thread.sleep(1000);
+        addUserPage.getUserNameField().sendKeys("Abdulrhman");
+    }
+
+    @And("admin user click on save button")
+    public void adminUserClickOnSaveButton() {
+       addUserPage.clickOnSaveButton();
+    }
+
+    @Then("number of recorded users is increased by numbers of added users")
+    public void numberOfRecordedUsersIsIncreasedByNumbersOfAddedUsers() {
+        recordsAfterAdd = adminTabPage.getUserRecrords();
+        if (recordsAfterAdd == records+1){
+            System.out.println(recordsAfterAdd);
+        Assert.assertEquals(recordsAfterAdd,records+1);
+        }
+        else {
+            System.out.println(recordsAfterAdd);
+            Assert.assertTrue(recordsAfterAdd>records);
+        }
     }
 }

@@ -6,8 +6,8 @@ Feature:OrangeHRM admin tab functionality
     And admin user gets numbers of users recorded
     And admin user click on add button in admin page
     And admin user fill required data to add new user
-#    And admin user click on save button
-#    Then number of recorded users is increased by numbers of added users
+    And admin user click on save button
+    Then number of recorded users is increased by numbers of added users
 
     Examples:
     | userName | password |
