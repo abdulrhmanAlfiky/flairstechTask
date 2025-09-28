@@ -8,6 +8,6 @@ import io.cucumber.testng.CucumberOptions;
         glue = {"task"},
         plugin = {"pretty","io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )
-public class CreateNewGoalRunner extends AbstractTestNGCucumberTests{
+public class AdminTabRunner extends AbstractTestNGCucumberTests{
 }
 
